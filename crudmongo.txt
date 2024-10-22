@@ -1,0 +1,71 @@
+// Connect to the database
+use mydatabase;
+
+// Create users
+db.users.insertOne({ name: "John Doe", email: "john@example.com" });
+db.users.insertMany([
+    { name: "Jane Smith", email: "jane@example.com" },
+    { name: "Alice Johnson", email: "alice@example.com" }
+]);
+
+// Read users
+db.users.find().pretty(); // List all users
+db.users.find({ email: "john@example.com" }).pretty(); // Find specific user
+
+// Update a user
+db.users.updateOne(
+    { email: "john@example.com" },
+    { $set: { name: "Johnathan Doe" } }
+);
+
+// Verify update
+db.users.find().pretty(); // Check all users
+
+// Delete a user
+db.users.deleteOne({ email: "johnathan@example.com" });
+
+// Final verification
+db.users.find().pretty(); // List all remaining users
+
+
+// Connect to the database
+use mydatabase;
+
+// Insert some users for demonstration
+db.users.insertMany([
+    { name: "John Doe", email: "john@example.com" },
+    { name: "Jane Smith", email: "jane@example.com" },
+    { name: "Alice Johnson", email: "alice@example.com" },
+    { name: "Bob Brown", email: "bob@example.com" },
+    { name: "Charlie Black", email: "charlie@example.com" }
+]);
+
+// Find all users and sort by name
+db.users.find().sort({ name: 1 }).pretty();
+
+// Find users with email ending in 'example.com'
+db.users.find({ email: /@example\.com$/ }).pretty();
+
+// Count the number of users
+db.users.count(); // Total user count
+
+// Count users with email ending in 'example.com'
+db.users.count({ email: /@example\.com$/ }); // Count users with emails ending in `example.com`
+
+// Limit results to first 3 users
+db.users.find().limit(3).pretty();
+
+// Skip the first 1 user and limit to 2
+db.users.find().skip(1).limit(2).pretty();
+
+// Return only names of users
+db.users.find({}, { name: 1, _id: 0 }).pretty(); // Show only names without _id
+
+// Example of finding users based on a nested field
+db.users.insertMany([
+    { name: "Sam Green", email: "sam@example.com", address: { street: "456 Maple St", city: "New York" } },
+    { name: "Lisa White", email: "lisa@example.com", address: { street: "789 Oak St", city: "Los Angeles" } }
+]);
+
+// Find users in New York
+db.users.find({ "address.city": "New York" }).pretty();
